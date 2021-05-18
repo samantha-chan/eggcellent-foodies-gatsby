@@ -1,14 +1,20 @@
+const dotenv = require('dotenv')
+
+if ( process.env.NODE_ENV !== 'production') {
+  dotenv.config()
+}
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
+    title: `Eggcellent Foodies | Boston Based Food Blog`,
     author: {
-      name: `Kyle Mathews`,
-      summary: `who lives and works in San Francisco building useful things.`,
+      name: `Eggcellent Foodies Team`,
+      summary: `Who is always looking for their next food adventure and amazing recipes`,
     },
-    description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
+    description: `Food blog for documenting all of our food adventures within Boston and beyond`,
+    siteUrl: `https://www.eggcellentfoodies.com/`,
     social: {
-      twitter: `kylemathews`,
+      instagram: `theeggcellentfoodies`,
     },
   },
   plugins: [
@@ -126,5 +132,12 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
+    {
+      resolve: `gatsby-source-contentful`,
+      options: {
+        spaceId: `wgf80eug5ugu`,
+        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+      }
+    }
   ],
 }
