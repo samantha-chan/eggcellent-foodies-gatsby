@@ -1,25 +1,39 @@
+const { graphql } = require("gatsby")
 const path = require(`path`)
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
 
-  // Define a template for blog post
-  const blogPost = path.resolve(`./src/templates/blog-post-contentful.js`)
+  // Get all the template types here
+  const blogPost = path.resolve(`./src/templates/post.js`)
+  const recipePost = path.resolve(`./src/templates/recipe.js`)
 
-  // Get all markdown blog posts sorted by date
+  // Gather all the content types here
   const result = await graphql(
     `
-      {
-        allContentfulPost {
-          totalCount
-          edges {
-            node {
-              slug
-              title
-            }
+    {
+      allContentfulPost {
+        totalCount
+        __typename
+        edges {
+          node {
+            slug
+            title
           }
         }
       }
+      allContentfulRecipe {
+        totalCount
+        __typename
+        edges {
+          node {
+            author
+            slug
+            title
+          }
+        }
+      }
+    }
     `
   )
 
@@ -32,16 +46,14 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   }
 
   const posts = result.data.allContentfulPost.edges
+  const recipes = result.data.allContentfulRecipe.edges 
 
-  // Create blog posts pages
-  // But only if there's at least one markdown file found at "content/blog" (defined in gatsby-config.js)
-  // `context` is available in the template as a prop and as a variable in GraphQL
-
+  // If it's a post use the Post Template
   if (posts.length > 0) {
     posts.forEach((post, index) => {
       const previousPostId = index === 0 ? null : posts[index - 1].id
       const nextPostId = index === posts.length - 1 ? null : posts[index + 1].id
-
+  
       createPage({
         path: post.node.slug,
         component: blogPost,
@@ -50,7 +62,26 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           id: post.id,
           previousPostId,
           nextPostId,
-        },
+        }
+      })
+    })
+  }
+
+  // If it's a recipe use the Recipe Template
+  if (recipes.length > 0) {
+    recipes.forEach((recipe, index) => {
+      const previousPostId = index === 0 ? null : recipes[index - 1].id
+      const nextPostId = index === recipes.length - 1 ? null : recipes[index + 1].id
+  
+      createPage({
+        path: recipe.node.slug,
+        component: recipePost,
+        context: {
+          slug: recipe.node.slug,
+          id: recipe.id,
+          previousPostId,
+          nextPostId,
+        }
       })
     })
   }
