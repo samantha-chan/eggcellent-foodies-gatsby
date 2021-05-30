@@ -45,7 +45,12 @@ export const pageQuery = graphql`
     }
     contentfulPost(slug: { eq: $slug }) {
       title
-      author
+      author {
+        ... on ContentfulAuthor {
+            id
+            name
+          }
+      }
       content {
         raw
       }

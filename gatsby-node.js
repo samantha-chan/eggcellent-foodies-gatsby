@@ -27,7 +27,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         __typename
         edges {
           node {
-            author
             slug
             title
           }

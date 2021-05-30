@@ -38,17 +38,21 @@ const Bold = ({ children }) => <span className="bold" style={{color:'#f0f0f0'}}>
  */
 const RecipeTemplate = ({ data, location }) => {
   const post = data.contentfulRecipe.content
-  const steps = data.contentfulRecipe.steps
+  const preRecipeContent = data.contentfulRecipe.preRecipeContent
+  const postRecipeContent = data.contentfulRecipe.postRecipeContent
+  const steps = data.contentfulRecipe.instructions
   const title = data.contentfulRecipe.title
   const siteTitle = data.site.siteMetadata?.title || `Title`
   // const { previous, next } = data
 
-  const output = renderRichText(post, options)
+  const preOutput = renderRichText(preRecipeContent, options)
+  const postOutput = renderRichText(postRecipeContent, options)
   const stepsOutput = renderRichText(steps, options)
   return (
     <Layout location={location} title={siteTitle}>
-      <BlogPost title={title} post={output} />
+      <BlogPost title={title} post={preOutput} />
       <BlogPost post={stepsOutput} />
+      <BlogPost title={title} post={postOutput} />
     </Layout>
   )
 }
@@ -71,11 +75,20 @@ export const pageQuery = graphql`
     }
     contentfulRecipe(slug: { eq: $slug }) {
       title
-      author
-      content {
+      ingredients
+      author {
+        ... on ContentfulAuthor {
+            id
+            name
+          }
+      }
+      postRecipeContent {
         raw
       }
-      steps {
+      preRecipeContent {
+        raw
+      }
+      instructions {
         raw
       }
     }
