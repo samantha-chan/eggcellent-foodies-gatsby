@@ -19,7 +19,7 @@ const PostTemplate = ({ data, location }) => {
   const output = renderRichText(post)
   return (
     <Layout location={location} title={siteTitle}>
-      <BlogPost title={title} post={output} />
+      <BlogPost title={title} post={post} />
     </Layout>
     //   <Seo
     //     title={post.title}
