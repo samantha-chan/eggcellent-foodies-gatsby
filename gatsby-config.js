@@ -94,6 +94,15 @@ module.exports = {
         spaceId: `wgf80eug5ugu`,
         accessToken: 'Hl4IvAe1OU96qmKLma4wCYiYROYYyGxI7S7MQrUPano'
       }
-    }
+    },
+    {
+      resolve: `gatsby-theme-material-ui`,
+      options: {
+        stylesProvider: {
+          injectFirst: true,
+        },
+      },
+    },
+    `gatsby-plugin-styled-components`
   ],
 }

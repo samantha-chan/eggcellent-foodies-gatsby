@@ -1,8 +1,6 @@
 import * as React from "react"
-import { Link, graphql } from "gatsby"
+import { graphql } from "gatsby"
 
-// import Bio from "../components/bio"
-import Layout from "../components/layout"
 // import Seo from "../components/seo"
 import { BlogPost } from "../components/ContentBlock"
 
@@ -37,7 +35,7 @@ const Bold = ({ children }) => <span className="bold" style={{color:'#f0f0f0'}}>
  * @returns 
  */
 const RecipeTemplate = ({ data, location }) => {
-  const post = data.contentfulRecipe.content
+  // const post = data.contentfulRecipe.content
   const preRecipeContent = data.contentfulRecipe.preRecipeContent
   const postRecipeContent = data.contentfulRecipe.postRecipeContent
   const steps = data.contentfulRecipe.instructions
@@ -49,11 +47,11 @@ const RecipeTemplate = ({ data, location }) => {
   const postOutput = renderRichText(postRecipeContent, options)
   const stepsOutput = renderRichText(steps, options)
   return (
-    <Layout location={location} title={siteTitle}>
-      <BlogPost title={title} post={preOutput} />
-      <BlogPost post={stepsOutput} />
-      <BlogPost title={title} post={postOutput} />
-    </Layout>
+      <>
+        <BlogPost title={title} post={preOutput} />
+        <BlogPost post={stepsOutput} />
+        <BlogPost title={title} post={postOutput} />
+      </>
   )
 }
 
